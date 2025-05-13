@@ -1,0 +1,22 @@
+-- Add a new room
+INSERT INTO rooms (room_name, floor_number) VALUES ('Living Room', 1);
+
+-- Add a device
+INSERT INTO devices (device_name, device_type, status, room_id, last_updated) 
+VALUES ('Smart AC', 'Cooling', 'OFF', 1, NOW());
+
+-- Log temperature and humidity
+INSERT INTO environment_log (device_id, temperature, humidity) 
+VALUES (1, 27.3, 45.2);
+
+-- Get latest readings for all devices
+SELECT * FROM environment_log ORDER BY timestamp DESC;
+
+-- Get devices in a room
+SELECT d.device_name FROM devices d 
+JOIN rooms r ON d.room_id = r.room_id 
+WHERE r.room_name = 'Bedroom';
+
+-- Add a rule
+INSERT INTO rules (device_id, trigger_condition, action) 
+VALUES (1, 'temperature > 30', 'Turn ON Smart AC');
